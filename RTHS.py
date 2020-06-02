@@ -205,6 +205,6 @@ for datasetname  in datasetlist:
     print(maxx,currFeat)
     with open("result_RTHS_KNN.csv","a") as f:
         print(datasetname,"%.2f"%(100*maxx),currFeat,sep=',',file=f,end=',')
-    for x in currAgent:
-        print(int(x),end=' ',file=f)
-        print('',file=f)
+        for x in currAgent:
+            print(int(x),end=' ',file=f)
+            print('',file=f)
