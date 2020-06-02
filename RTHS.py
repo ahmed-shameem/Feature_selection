@@ -184,30 +184,27 @@ datasetlist = ["BreastCancer.csv", "BreastEW.csv", "CongressEW.csv", "Exactly.cs
 
 for datasetname  in datasetlist:    
     print(datasetname)
-	accuArr = []
-	featArr = []
-	currAgent = []
-	start_time = datetime.now()
-	maxx = -1
-	currFeat= 20000
-	currAgent = []
-	for i in range(20):
-		print(i)
-		agentBest, testAcc, featCnt = ringOpt(datasetname)
-		
-		# print(testAcc)
-		if testAcc>maxx :
-			maxx = testAcc
-			currFeat = featCnt
-			currAgent = agentBest.copy()
+    accuArr = []
+    featArr = []
+    currAgent = []
+    start_time = datetime.now()
+    maxx = -1
+    currFeat= 20000
+    currAgent = []
+    for i in range(20):
+        agentBest, testAcc, featCnt = ringOpt(datasetname)
+    if testAcc>maxx:
+        maxx = testAcc
+        currFeat = featCnt
+        currAgent = agentBest.copy()
 
 	#time_required = datetime.now() - start_time
-	
-	datasetname = datasetname.split('.')[0]
-	print(datasetname)
-	print(maxx,currFeat)
-	with open("result_RTHS_KNN.csv","a") as f:
-		print(datasetname,"%.2f"%(100*maxx),currFeat,sep=',',file=f,end=',')
-		for x in currAgent:
-			print(int(x),end=' ',file=f)
-		print('',file=f)
+
+    datasetname = datasetname.split('.')[0]
+    print(datasetname)
+    print(maxx,currFeat)
+    with open("result_RTHS_KNN.csv","a") as f:
+        print(datasetname,"%.2f"%(100*maxx),currFeat,sep=',',file=f,end=',')
+    for x in currAgent:
+        print(int(x),end=' ',file=f)
+        print('',file=f)
