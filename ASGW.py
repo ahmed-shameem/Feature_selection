@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[3]:
-
-
 import numpy as np
 import random
 from copy import deepcopy
