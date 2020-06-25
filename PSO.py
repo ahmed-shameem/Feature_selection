@@ -87,12 +87,7 @@ def fitness(position,trainX,trainy,testX,testy):
 	return val
 
 def onecount(position):
-	cnt=0
-	for i in position:
-		if i==1.0:
-			cnt+=1
-	return cnt
-
+	return sum(position)
 
 def allfit(population,trainX,trainy,testX,testy):
 	x=np.shape(population)[0]
@@ -125,9 +120,9 @@ def initialize(popSize,dim):
 
 
 #========================================================================================================================
-def funcPSO(popSize,maxIter,filename):
+def funcPSO(popSize,maxIter,datasetname):
 
-	df=pd.read_csv(filename)
+	df=pd.read_csv(datasetname)
 	(a,b)=np.shape(df)
 	print(a,b)
 	data = df.values[:,0:b-1]
@@ -168,7 +163,7 @@ def funcPSO(popSize,maxIter,filename):
 			if (fitList[i] < pbestVal[i]):
 				pbestVal[i] = fitList[i]
 				pbestVec[i] = population[i].copy()
-				print("pbest updated")
+				
 
 		#update gbest
 		for i in range(popSize):
@@ -192,24 +187,6 @@ def funcPSO(popSize,maxIter,filename):
 			y = np.subtract(gbestVec , population[inx])
 			velocity[inx] = np.multiply(W,velocity[inx]) + np.multiply(r1,x) + np.multiply(r2,y)
 
-			########## if S function
-			# popnew[inx] = np.add(population[inx],velocity[inx])
-			# for j in range(dimension):
-			# 	temp = sigmoid4(popnew[inx][j])
-			# 	if temp > 0.5:
-			# 		popnew[inx][j] = 1
-			# 	else:
-			# 		popnew[inx][j] = 0
-			
-			########## if V function
-			# for j in range(dimension):
-			# 	temp = Vfunction1(velocity[inx][j])
-			# 	if temp > 0.5:
-			# 		popnew[inx][j] = 1 - population[inx][j]
-			# 	else:
-			# 		popnew[inx][j] = population[inx][j]
-
-			########## if X function
 			
 			popnew[inx] = np.add(population[inx],velocity[inx])
 			y, z = np.array([]), np.array([])
@@ -270,10 +247,10 @@ WMAX = 0.9
 WMIN = 0.4
 
 
-directory="csvUCI/"
-filelist=os.listdir(directory )
-for filename in filelist:
-	print(filename)
+
+datasetlist = ["BreastCancer.csv", "Tic-tac-toe.csv", "Wine.csv", "HeartEW.csv", "Exactly.csv", "Exactly2.csv", "M-of-n.csv", "Zoo.csv", "Vote.csv", "CongressEW.csv", "Lymphography.csv", "SpectEW.csv", "BreastEW.csv", "Ionosphere.csv", "KrVsKpEW.csv", "WaveformEW.csv", "Sonar.csv", "PenglungEW.csv"]
+for datasetname in datasetlist:
+	print(datasetname)
 	best_accuracy = -1
 	best_no_features = -1
 	average_accuracy = 0
@@ -281,11 +258,8 @@ for filename in filelist:
 	accuracy_list = []
 	features_list = []
 
-	for global_count in range(5):
-		if (filename == "WaveformEW.csv" or filename == "KrVsKpEW.csv" ) and global_count > 1:
-			break
-		
-		val,output = funcPSO(popSize,maxIter,directory+filename)
+	for global_count in range(15):
+		val,output = funcPSO(popSize,maxIter,datasetname)
 
 		accuracy_list.append(val)
 		features_list.append(onecount(output))
